@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://widget.cloudpayments.ru/bundles/cloudpayments.js"></script>
+
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>asd</h1>
+
+    <script>
+      setTimeout(() => {
+        if (window.Flutter) Flutter.postMessage('Hello!')
+      }, 2000);
+
+      this.pay = function () {
+        var widget = new cp.CloudPayments();
+        widget.pay(
+          'charge', // или 'charge'
+          {
+            //options
+            publicId: 'test_api_00000000000000000000002', //id из личного кабинета
+            description: 'Оплата товаров в example.com', //назначение
+            amount: 100, //сумма
+            currency: 'RUB', //валюта
+            accountId: 'user@example.com', //идентификатор плательщика (необязательно)
+            invoiceId: '1234567', //номер заказа  (необязательно)
+            skin: 'mini', //дизайн виджета (необязательно)
+          },
+          {
+            onSuccess: function (options) {
+              if (window.Flutter) Flutter.postMessage('onSuccess!')
+
+              // success
+              //действие при успешной оплате
+            },
+            onFail: function (reason, options) {
+              if (window.Flutter) Flutter.postMessage('onFail!')
+
+              // fail
+              //действие при неуспешной оплате
+            },
+            onComplete: function (paymentResult, options) {
+              if (window.Flutter) Flutter.postMessage('onComplete!')
+
+              //Вызывается как только виджет получает от api.cloudpayments ответ с результатом транзакции.
+              //например вызов вашей аналитики Facebook Pixel
+            },
+          }
+        );
+      };
+
+      setTimeout(() => {
+        this.pay()
+      }, 1000);
+    </script>
+  </body>
+</html>
